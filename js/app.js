@@ -1,7 +1,9 @@
 /*
  * Create a list that holds all of your cards
  */
-const cardList = document.querySelectorAll(".card");
+let cardList = document.querySelectorAll(".card");
+let moveCount = document.querySelector(".moves");
+const restart = document.querySelector(".restart");
 
 let openCardList = [];
 let matchedCardList = [];
@@ -25,10 +27,15 @@ function shuffle(array) {
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = array[currentIndex].innerHTML;
+        array[currentIndex].innerHTML = array[randomIndex].innerHTML;
+        array[randomIndex].innerHTML = temporaryValue;
+
+
     }
+
+
+
 
     return array;
 }
@@ -45,6 +52,23 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+
+ restart.addEventListener("click", function(){
+
+    cardList.forEach(card => {
+        card.classList.remove("match", "show", "open");
+
+
+    });
+
+    matchedCardList.length = 0;
+    openCardList.length = 0;
+    count = 0;
+    moveCount.innerText = count;
+    cardList = shuffle(cardList);
+ })
+
+
  cardList.forEach(card => {
      card.addEventListener("click", function(e){
          //alert("You clicked a card");
@@ -55,9 +79,10 @@ function shuffle(array) {
 
          console.log(e.currentTarget.innerHTML);
          if (!(matchedCardList.includes(e.currentTarget) || openCardList.includes(e.currentTarget))){
+            addMove();
             displaySymbol(e.currentTarget);
             openListAdd(e.currentTarget);
-            addMove();
+            
          }
          else {
              return;
@@ -138,11 +163,12 @@ function shuffle(array) {
 
  function removeStar(){
 
+    
  };
 
  function addMove(){
      count += 1;
-     let moveCount = document.querySelector(".moves");
+     
      moveCount.innerText = count;
  };
 
@@ -157,7 +183,7 @@ function shuffle(array) {
     matchedCardList.length = 0;
     openCardList.length = 0;
     count = 0;
-    moveCOunt.innerText = count;
+    moveCount.innerText = count;
     shuffle(cardList);
 
  };
