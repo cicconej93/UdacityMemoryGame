@@ -1,8 +1,12 @@
 /*
  * Create a list that holds all of your cards
  */
+const cardList = document.querySelectorAll(".card");
 
- //test
+let openCardList = [];
+let count = 0;
+
+
 
 
 /*
@@ -38,3 +42,75 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ cardList.forEach(card => {
+     card.addEventListener("click", function(e){
+         //alert("You clicked a card");
+         //let className = e.
+         console.log(e.currentTarget.innerHTML);
+         displaySymbol(e.currentTarget);
+         openListAdd(e.currentTarget);
+         addMove();
+     });
+ });
+
+/*  cardList.forEach(card => {
+     card.addEventListener("animationEnd", function(){
+         card.classList.toggle("show");
+     });
+ }); */
+
+ function displaySymbol(clickedCard) {
+     clickedCard.classList.toggle("show");
+     clickedCard.classList.toggle("open");
+     
+ };
+
+ function openListAdd(clickedCard) {
+     //let cardClassName = clickedCard.
+     //console.log(clickedCard.inner);
+    if(!openCardList.includes(clickedCard)){
+        openCardList.push(clickedCard);
+    }
+    //openCardList.push(clickedCard);
+    
+    if(openCardList.length > 1){
+        if (openCardList[0].innerHTML == openCardList[1].innerHTML){
+            addMatch(openCardList[0], openCardList[1]);
+        }
+        else {
+           // alert("No match");
+/*            openCardList[0].classList.add("wrong");
+           openCardLIst[1].classList.add("wrong"); */
+            setTimeout(function() {addWrong(openCardList[0], openCardList[1])}, 300);
+            setTimeout(function() {removeCards(openCardList[0], openCardList[1])}, 800);
+            
+
+        }
+    }
+ };
+
+ function addMatch(matchedCardOne, matchedCardTwo){
+    matchedCardOne.classList.remove("open");
+    matchedCardOne.classList.add("match");
+    matchedCardTwo.classList.remove("open");
+    matchedCardTwo.classList.add("match");
+    openCardList.length = 0;
+ };
+
+ function addWrong(wrongCardOne, wrongCardTwo){
+    wrongCardOne.classList.add("wrong");
+    wrongCardTwo.classList.add("wrong");
+ };
+
+ function removeCards(noMatchCardOne, noMatchCardTwo){
+     noMatchCardOne.classList.remove("open", "show", "wrong");
+     noMatchCardTwo.classList.remove("open", "show", "wrong");
+     openCardList.length = 0;
+ };
+
+ function addMove(){
+     count += 1;
+     let moveCount = document.querySelector(".moves");
+     moveCount.innerText = count;
+ }
