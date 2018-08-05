@@ -4,6 +4,7 @@
 const cardList = document.querySelectorAll(".card");
 
 let openCardList = [];
+let matchedCardList = [];
 let count = 0;
 
 
@@ -48,9 +49,15 @@ function shuffle(array) {
          //alert("You clicked a card");
          //let className = e.
          console.log(e.currentTarget.innerHTML);
-         displaySymbol(e.currentTarget);
-         openListAdd(e.currentTarget);
-         addMove();
+         if (!(matchedCardList.includes(e.currentTarget) || openCardList.includes(e.currentTarget))){
+            displaySymbol(e.currentTarget);
+            openListAdd(e.currentTarget);
+            addMove();
+
+         } else {
+             return;
+         }
+
      });
  });
 
@@ -95,6 +102,10 @@ function shuffle(array) {
     matchedCardOne.classList.add("match");
     matchedCardTwo.classList.remove("open");
     matchedCardTwo.classList.add("match");
+
+    //push the two matched cards to the list of matched cards
+    matchedCardList.push(matchedCardOne, matchedCardTwo);
+    //clear the open card list for new selections
     openCardList.length = 0;
  };
 
