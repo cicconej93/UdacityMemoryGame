@@ -82,8 +82,8 @@ function shuffle(array) {
            // alert("No match");
 /*            openCardList[0].classList.add("wrong");
            openCardLIst[1].classList.add("wrong"); */
-            setTimeout(function() {addWrong(openCardList[0], openCardList[1])}, 300);
-            setTimeout(function() {removeCards(openCardList[0], openCardList[1])}, 800);
+            setTimeout(function() {addWrong(openCardList[0], openCardList[1])}, 200);
+            setTimeout(function() {removeCards(openCardList[0], openCardList[1])}, 900);
             
 
         }
