@@ -6,6 +6,7 @@ const cardList = document.querySelectorAll(".card");
 let openCardList = [];
 let matchedCardList = [];
 let count = 0;
+let disableClick = false;
 
 
 
@@ -48,15 +49,20 @@ function shuffle(array) {
      card.addEventListener("click", function(e){
          //alert("You clicked a card");
          //let className = e.
+         if(disableClick){
+             return;
+         }
+
          console.log(e.currentTarget.innerHTML);
          if (!(matchedCardList.includes(e.currentTarget) || openCardList.includes(e.currentTarget))){
             displaySymbol(e.currentTarget);
             openListAdd(e.currentTarget);
             addMove();
-
-         } else {
+         }
+         else {
              return;
          }
+
 
      });
  });
@@ -74,23 +80,22 @@ function shuffle(array) {
  };
 
  function openListAdd(clickedCard) {
-     //let cardClassName = clickedCard.
-     //console.log(clickedCard.inner);
+
     if(!openCardList.includes(clickedCard)){
         openCardList.push(clickedCard);
     }
-    //openCardList.push(clickedCard);
+
     
     if(openCardList.length > 1){
         if (openCardList[0].innerHTML == openCardList[1].innerHTML){
             addMatch(openCardList[0], openCardList[1]);
         }
         else {
-           // alert("No match");
-/*            openCardList[0].classList.add("wrong");
-           openCardLIst[1].classList.add("wrong"); */
+
+            disableClick = true;
             setTimeout(function() {addWrong(openCardList[0], openCardList[1])}, 200);
             setTimeout(function() {removeCards(openCardList[0], openCardList[1])}, 900);
+            
             
 
         }
@@ -105,6 +110,15 @@ function shuffle(array) {
 
     //push the two matched cards to the list of matched cards
     matchedCardList.push(matchedCardOne, matchedCardTwo);
+
+    //check if all cards are matched, if so display you win message.
+    if(matchedCardList.length === cardList.length){
+        gameWon();
+
+    }
+
+    disableClick = false;
+
     //clear the open card list for new selections
     openCardList.length = 0;
  };
@@ -118,10 +132,32 @@ function shuffle(array) {
      noMatchCardOne.classList.remove("open", "show", "wrong");
      noMatchCardTwo.classList.remove("open", "show", "wrong");
      openCardList.length = 0;
+
+     disableClick = false;
+ };
+
+ function removeStar(){
+
  };
 
  function addMove(){
      count += 1;
      let moveCount = document.querySelector(".moves");
      moveCount.innerText = count;
- }
+ };
+
+ function gameWon(){
+    alert("YOU WIN!");
+    matchedCardList.forEach(card => {
+        card.classList.remove("match", "show");
+
+
+    });
+
+    matchedCardList.length = 0;
+    openCardList.length = 0;
+    count = 0;
+    moveCOunt.innerText = count;
+    shuffle(cardList);
+
+ };
