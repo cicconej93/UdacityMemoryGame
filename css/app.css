@@ -129,3 +129,38 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/*Styles for win screen*/
+
+.winScreen {
+    width: 500px;
+    min-height: 340px;
+    background: linear-gradient(160deg, #aa7ecd 0%, #02ccbb 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: -600px;
+    z-index: 1;
+    -webkit-transition: top 1s ;  /* Chrome 1-25, Safari 3.2+ */
+    -moz-transition: top 1s ;  /* Firefox 4-15 */
+      -o-transition: top 1s ;  /* Opera 10.50–12.00 */
+         transition: top 1s ;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
+
+    
+}
+
+.open {
+    top: 200px !important; 
+}
+
+.plyBtn {
+    width: 80px;
+    height: 30px;
+    border: none;
+    background-color: rgb(36, 127, 247);
+    color: white
+}
+

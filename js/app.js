@@ -3,6 +3,10 @@
  */
 let cardList = document.querySelectorAll(".card");
 let moveCount = document.querySelector(".moves");
+//let timer = timer; 
+let winScreen = document.querySelector(".winScreen");
+let plyBtn = document.querySelector(".plyBtn");
+//console.log(timer);
 const restart = document.querySelector(".restart");
 
 let openCardList = [];
@@ -66,7 +70,12 @@ function shuffle(array) {
     count = 0;
     moveCount.innerText = count;
     cardList = shuffle(cardList);
- })
+ });
+
+ plyBtn.addEventListener("click", function(){
+     winScreen.classList.remove("open");
+     playAgain();
+ });
 
 
  cardList.forEach(card => {
@@ -79,7 +88,7 @@ function shuffle(array) {
 
          console.log(e.currentTarget.innerHTML);
          if (!(matchedCardList.includes(e.currentTarget) || openCardList.includes(e.currentTarget))){
-            addMove();
+           // addMove();
             displaySymbol(e.currentTarget);
             openListAdd(e.currentTarget);
             
@@ -112,6 +121,7 @@ function shuffle(array) {
 
     
     if(openCardList.length > 1){
+        addMove();
         if (openCardList[0].innerHTML == openCardList[1].innerHTML){
             addMatch(openCardList[0], openCardList[1]);
         }
@@ -173,7 +183,12 @@ function shuffle(array) {
  };
 
  function gameWon(){
-    alert("YOU WIN!");
+    //alert("YOU WIN!");
+    winScreen.classList.add("open");
+
+ };
+
+ function playAgain(){
     matchedCardList.forEach(card => {
         card.classList.remove("match", "show");
 
@@ -185,5 +200,4 @@ function shuffle(array) {
     count = 0;
     moveCount.innerText = count;
     shuffle(cardList);
-
- };
+ }
