@@ -3,16 +3,20 @@
  */
 let cardList = document.querySelectorAll(".card");
 let moveCount = document.querySelector(".moves");
-//let timer = timer; 
 let winScreen = document.querySelector(".winScreen");
 let plyBtn = document.querySelector(".plyBtn");
-//console.log(timer);
+let timer = document.querySelector('.timer');
 const restart = document.querySelector(".restart");
+let gameTime = new gameTimer();
+
+
+
 
 let openCardList = [];
 let matchedCardList = [];
 let count = 0;
 let disableClick = false;
+let gameStarted = false;
 
 
 
@@ -85,6 +89,10 @@ function shuffle(array) {
          if(disableClick){
              return;
          }
+         if(!gameStarted){
+             gameTime.startTimer();
+             gameStarted = true;
+         }
 
          console.log(e.currentTarget.innerHTML);
          if (!(matchedCardList.includes(e.currentTarget) || openCardList.includes(e.currentTarget))){
@@ -148,6 +156,7 @@ function shuffle(array) {
 
     //check if all cards are matched, if so display you win message.
     if(matchedCardList.length === cardList.length){
+        gameTime.stopTimer();
         gameWon();
 
     }
@@ -184,11 +193,15 @@ function shuffle(array) {
 
  function gameWon(){
     //alert("YOU WIN!");
+    let winningTime = document.querySelector(".winTime");
+    winningTime.textContent = "Your time to complete was " + timer.textContent;
     winScreen.classList.add("open");
 
  };
 
  function playAgain(){
+    gameTime.resetTimer();
+    gameStarted = false;
     matchedCardList.forEach(card => {
         card.classList.remove("match", "show");
 
@@ -200,4 +213,59 @@ function shuffle(array) {
     count = 0;
     moveCount.innerText = count;
     shuffle(cardList);
+ }
+
+
+
+ //Game timer constructor
+ function gameTimer() {
+     this.seconds = 0,
+     this.minutes = 0,
+     this.hours = 0,
+     this.t;
+
+    // method that is called during each interval.
+    //should add 1 to seconds each interval
+     this.timeTick = function(){
+         console.log(timer);
+         this.seconds++;
+         if(this.seconds >= 60) {
+             this.seconds = 0;
+             this.minutes++;
+             if (this.minutes >= 60) {
+                 this.minutes = 0;
+                 this.hours++;
+             }
+         }
+         console.log(this.seconds);
+         //console.log(timer.textContent);
+         timer.textContent = (this.hours ? (this.hours > 9 ? this.hours : "0" + this.hours) : "00") + ":" + (this.minutes ? (this.minutes > 9 ? this.minutes : "0" + this.minutes) : "00") + ":" + (this.seconds > 9 ? this.seconds : "0" + this.seconds);
+         this.startTimer();
+     };
+
+     //starts the timer and declares the time interval
+     this.startTimer = function() {
+         //console.log("start")
+         //console.log(this.timeTick);
+        this.t = setTimeout(this.timeTick.bind(this), 1000);
+     };;
+
+    //clears timer and stops it
+     this.stopTimer = function () {
+         clearTimeout(this.t);
+     };
+
+     this.resetTimer = function () {
+         console.log("timer should be reset once this method is called...");
+         console.log(timer);
+         console.log(timer.textContent);
+         console.log("Before");
+        timer.textContent = "00:00:00";
+        console.log("test");
+        console.log(timer);
+        console.log(timer.textContent);
+        this.seconds = 0;
+        this.minutes = 0;
+        this.hours = 0;
+     };
  }
