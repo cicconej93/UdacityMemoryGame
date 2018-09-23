@@ -1,6 +1,6 @@
 /*
- * Create a list that holds all of your cards
- */
+Declare DOM objects and global variables
+*/
 let cardList = document.querySelectorAll(".card");
 let moveCount = document.querySelector(".moves");
 let winLoseScreen = document.querySelector(".winLoseScreen");
@@ -9,11 +9,6 @@ let timer = document.querySelector('.timer');
 let gameLives = document.querySelector('.stars');
 const restart = document.querySelector(".restart");
 let gameTime = new gameTimer();
-
-console.log(gameLives.children[0]);
-
-
-
 let openCardList = [];
 let matchedCardList = [];
 let count = 0;
@@ -51,6 +46,7 @@ function shuffle(array) {
     return array;
 }
 
+shuffle(cardList);
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -65,18 +61,9 @@ function shuffle(array) {
 
 
  restart.addEventListener("click", function(){
+     gameTime.stopTimer();
+     playAgain();
 
-    cardList.forEach(card => {
-        card.classList.remove("match", "show", "open");
-
-
-    });
-
-    matchedCardList.length = 0;
-    openCardList.length = 0;
-    count = 0;
-    moveCount.innerText = count;
-    cardList = shuffle(cardList);
  });
 
  plyBtn.addEventListener("click", function(){
@@ -108,12 +95,6 @@ function shuffle(array) {
 
      });
  });
-
-/*  cardList.forEach(card => {
-     card.addEventListener("animationEnd", function(){
-         card.classList.toggle("show");
-     });
- }); */
 
  function displaySymbol(clickedCard) {
      clickedCard.classList.toggle("show");
@@ -167,15 +148,19 @@ function shuffle(array) {
     openCardList.length = 0;
  };
 
+ //diplay wrong card match css
+ //also checks to see if star rating will drop and determines if the user has lost if they make too many incorrect 
+ //matches.
  function addWrong(wrongCardOne, wrongCardTwo){
-    if (lifeCount < 3){
-        removeStar();
-        wrongCardOne.classList.add("wrong");
-        wrongCardTwo.classList.add("wrong");
-    }
-    else{
+    wrongCardOne.classList.add("wrong");
+    wrongCardTwo.classList.add("wrong");
+    if ( count % 5 === 0 && lifeCount > 2){
         gameTime.stopTimer();
         gameLose();
+
+    }
+    else if(count % 5 === 0){
+        removeStar();
     }
 
  };
@@ -200,6 +185,7 @@ function shuffle(array) {
      moveCount.innerText = count;
  };
 
+ //display the modal for winning 
  function gameWon(){
     let winNotify = document.querySelector(".winLoseNotification");
     let winningTime = document.querySelector(".winTime");
@@ -208,6 +194,7 @@ function shuffle(array) {
     winLoseScreen.classList.add("open");
  };
 
+ //display the modal for losing
  function gameLose(){
      let loseNotify = document.querySelector(".winLoseNotification");
      let losingTime = document.querySelector(".winTime");
@@ -216,8 +203,8 @@ function shuffle(array) {
      winLoseScreen.classList.add("open");
  }
 
+ //this function resets the game state
  function playAgain(){
-    //gameLives.childNodes.style.visibility = "visible";
     for(let i = 0; i < 3; i++){
         gameLives.children[i].style.visibility = "visible";
     }
@@ -229,6 +216,9 @@ function shuffle(array) {
 
 
     });
+    openCardList.forEach(card => {
+        card.classList.remove("match","open", "show");
+    })
 
     matchedCardList.length = 0;
     openCardList.length = 0;
@@ -273,6 +263,7 @@ function shuffle(array) {
          clearTimeout(this.t);
      };
 
+    //reset the timer content
      this.resetTimer = function () {
         timer.textContent = "00:00:00";
         this.seconds = 0;
