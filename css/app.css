@@ -132,7 +132,7 @@ h1 {
 
 /*Styles for win screen*/
 
-.winScreen {
+.winLoseScreen {
     width: 500px;
     min-height: 340px;
     background: linear-gradient(160deg, #aa7ecd 0%, #02ccbb 100%);
@@ -157,6 +157,7 @@ h1 {
 }
 
 .plyBtn {
+    margin-top: 50%;
     width: 80px;
     height: 30px;
     border: none;

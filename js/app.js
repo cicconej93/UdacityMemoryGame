@@ -3,12 +3,14 @@
  */
 let cardList = document.querySelectorAll(".card");
 let moveCount = document.querySelector(".moves");
-let winScreen = document.querySelector(".winScreen");
+let winLoseScreen = document.querySelector(".winLoseScreen");
 let plyBtn = document.querySelector(".plyBtn");
 let timer = document.querySelector('.timer');
+let gameLives = document.querySelector('.stars');
 const restart = document.querySelector(".restart");
 let gameTime = new gameTimer();
 
+console.log(gameLives.children[0]);
 
 
 
@@ -17,6 +19,7 @@ let matchedCardList = [];
 let count = 0;
 let disableClick = false;
 let gameStarted = false;
+let lifeCount = 0;
 
 
 
@@ -77,7 +80,7 @@ function shuffle(array) {
  });
 
  plyBtn.addEventListener("click", function(){
-     winScreen.classList.remove("open");
+     winLoseScreen.classList.remove("open");
      playAgain();
  });
 
@@ -165,8 +168,16 @@ function shuffle(array) {
  };
 
  function addWrong(wrongCardOne, wrongCardTwo){
-    wrongCardOne.classList.add("wrong");
-    wrongCardTwo.classList.add("wrong");
+    if (lifeCount < 3){
+        removeStar();
+        wrongCardOne.classList.add("wrong");
+        wrongCardTwo.classList.add("wrong");
+    }
+    else{
+        gameTime.stopTimer();
+        gameLose();
+    }
+
  };
 
  function removeCards(noMatchCardOne, noMatchCardTwo){
@@ -178,7 +189,8 @@ function shuffle(array) {
  };
 
  function removeStar(){
-
+    gameLives.children[lifeCount].style.visibility = "hidden";
+    lifeCount++;
     
  };
 
@@ -189,13 +201,25 @@ function shuffle(array) {
  };
 
  function gameWon(){
+    let winNotify = document.querySelector(".winLoseNotification");
     let winningTime = document.querySelector(".winTime");
+    winNotify.textContent = "You Win!";
     winningTime.textContent = "Your time to complete was " + timer.textContent;
-    winScreen.classList.add("open");
-
+    winLoseScreen.classList.add("open");
  };
 
+ function gameLose(){
+     let loseNotify = document.querySelector(".winLoseNotification");
+     loseNotify.textContent = "Sorry, you lose this time!";
+     winLoseScreen.classList.add("open");
+ }
+
  function playAgain(){
+    //gameLives.childNodes.style.visibility = "visible";
+    for(let i = 0; i < 3; i++){
+        gameLives.children[i].style.visibility = "visible";
+    }
+    lifeCount = 0;
     gameTime.resetTimer();
     gameStarted = false;
     matchedCardList.forEach(card => {
