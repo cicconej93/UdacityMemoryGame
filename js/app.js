@@ -210,7 +210,9 @@ function shuffle(array) {
 
  function gameLose(){
      let loseNotify = document.querySelector(".winLoseNotification");
+     let losingTime = document.querySelector(".winTime");
      loseNotify.textContent = "Sorry, you lose this time!";
+     losingTime.textContent = "It took you " + timer.textContent + " to... lose";
      winLoseScreen.classList.add("open");
  }
 
