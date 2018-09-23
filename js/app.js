@@ -84,8 +84,6 @@ function shuffle(array) {
 
  cardList.forEach(card => {
      card.addEventListener("click", function(e){
-         //alert("You clicked a card");
-         //let className = e.
          if(disableClick){
              return;
          }
@@ -96,7 +94,6 @@ function shuffle(array) {
 
          console.log(e.currentTarget.innerHTML);
          if (!(matchedCardList.includes(e.currentTarget) || openCardList.includes(e.currentTarget))){
-           // addMove();
             displaySymbol(e.currentTarget);
             openListAdd(e.currentTarget);
             
@@ -192,7 +189,6 @@ function shuffle(array) {
  };
 
  function gameWon(){
-    //alert("YOU WIN!");
     let winningTime = document.querySelector(".winTime");
     winningTime.textContent = "Your time to complete was " + timer.textContent;
     winScreen.classList.add("open");
@@ -237,16 +233,12 @@ function shuffle(array) {
                  this.hours++;
              }
          }
-         console.log(this.seconds);
-         //console.log(timer.textContent);
          timer.textContent = (this.hours ? (this.hours > 9 ? this.hours : "0" + this.hours) : "00") + ":" + (this.minutes ? (this.minutes > 9 ? this.minutes : "0" + this.minutes) : "00") + ":" + (this.seconds > 9 ? this.seconds : "0" + this.seconds);
          this.startTimer();
      };
 
      //starts the timer and declares the time interval
      this.startTimer = function() {
-         //console.log("start")
-         //console.log(this.timeTick);
         this.t = setTimeout(this.timeTick.bind(this), 1000);
      };;
 
@@ -256,14 +248,7 @@ function shuffle(array) {
      };
 
      this.resetTimer = function () {
-         console.log("timer should be reset once this method is called...");
-         console.log(timer);
-         console.log(timer.textContent);
-         console.log("Before");
         timer.textContent = "00:00:00";
-        console.log("test");
-        console.log(timer);
-        console.log(timer.textContent);
         this.seconds = 0;
         this.minutes = 0;
         this.hours = 0;
